@@ -1,0 +1,44 @@
+/*************************************************************************
+    > File Name: dp.cpp
+    > Author: DylanYang
+    > Mail: 13162687569@163.com 
+    > Created Time: 五  2/ 7 21:10:01 2020
+ ************************************************************************/
+#ifndef DP_H_
+#define DP_H_
+#include <string>
+/* 最长子序列问题*/
+
+class StrNumCount
+{
+	private:
+		enum {defaultLen=10};
+		int lenA;
+		int lenB;
+		int numA;
+		int numB;
+		int numC;
+		char *** countStr;
+		int ** lcsCount;
+		char * strA;
+		char * strB;
+		int lcs;
+		char **lcsStr; 
+	public:
+		void calLCS();
+		void setCountStr();
+
+	public:
+		StrNumCount(const char * ,const char *);
+		StrNumCount(const std::string, const std::string);
+		StrNumCount();
+		~StrNumCount();
+		void showStrA() const;
+		void showStrB() const;
+		void showStrs() const;
+		bool setStr(const char *, const char *);
+		bool setStrA(const char *);
+		bool setStrB(const char *);
+};
+		
+#endif
