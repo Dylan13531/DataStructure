@@ -35,6 +35,14 @@ int main()
 	Vector<int> testv4(d,10);
 	cout << "Order unquify by low Version,drop num: " << testv4.uniquify_lo() << endl;
 	cout << "Order unquify by hi Version,drop num: " << testv4.uniquify_hi() << endl;
+	int e[10] = {5,6,6,8,9,10,10,10,13,14};
+	Vector<int> testv5(e,10);
+	cout << "Find 4(should be -1)" << testv5.search(4)<<endl;
+	cout << "Find 15(should be 10)" << testv5.search(15)<<endl;
+	cout << "Find 6(should be ?)" << testv5.search(6)<<endl;
+	cout << "Find 8(should be ?)" << testv5.search(8)<<endl;
+	testv3.sort();
+	testv3.show();
 
-	return 0;
+return 0;
 }

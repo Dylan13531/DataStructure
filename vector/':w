@@ -32,12 +32,12 @@ namespace MyVector{
 			void shrink();
 			bool bubble1(Rank lo, Rank hi);
 			void bubbleSort1(Rank lo, Rank hi);
-			Rank bubble2(Rank lo, Rank hi);
+			bool bubble2(Rank lo, Rank hi);
 			void bubbleSort2(Rank lo, Rank hi);
 //			Rank max(Rank lo, Rank hi);
 //			void selectionSort(Rank lo, Rank hi);
-			void merge(Rank lo, Rank mi, Rank hi);
-			void mergeSort(Rank lo, Rank hi);
+//			void merge(Rank lo, Rank mi, Rank hi);
+//			void mergeSort(Rank lo, Rank hi);
 //			Rank partition(Rank lo, Rank hi);
 //			void quickSort(Rank lo, Rank hi);
 //			void heapSort(Rank lo, Rank hi);
@@ -58,7 +58,7 @@ namespace MyVector{
 			Vector(Vector<T> const & v){copyFrom(v._elem, 0, v._size);}
 			Vector(Vector<T> const & v,Rank lo, Rank hi){copyFrom(v._elem, lo, hi);}
 			~Vector(){ delete [] _elem;}
-			Rank size() { return _size;}
+			Rank size() const { return _size;}
 			bool empty() const { return _size==0;}
 			int disordered() const;
 			Rank find(T const & e) const {return find(e,0,_size);}
@@ -72,7 +72,6 @@ namespace MyVector{
 			int remove(Rank lo, Rank hi);
 			Rank insert(T const & e) {return insert(_size, e);}
 			Rank insert(Rank r, T const & e);
-			Rank stackSize(){return _size;}
 			void show() const;
 			void sort(Rank lo, Rank hi);
 			void sort(){sort(0, _size);}
@@ -86,70 +85,13 @@ namespace MyVector{
 			template <typename VST>
 			void traverse(VST & );
 	};
-
 //函数实现
 //
 
 	template<typename T> 
 	void Vector<T>::sort(Rank lo, Rank hi)
 	{
-		bubbleSort2(lo, hi);
-	}
-
-	template <typename T>
-	void Vector<T>::mergeSort(Rank lo, Rank hi)
-	{
-		Rank mid;
-		if(hi-lo < 2) return;
-		mid = (lo+hi)>>1;
-		mergeSort(lo,mid);
-		mergeSort(mid,hi);
-		merge(lo,mid,hi);
-	}
-
-	template <typename T>
-	void Vector<T>::merge(Rank lo, Rank mid, Rank hi)
-	{
-		int leftSize = mid-lo;
-		int rightSize = hi-mid;
-		T * left= new T [leftSize];
-		for(int i=0; i<leftSize; i++)
-			left[i] = _elem[lo+i];
-		T * right = &_elem[mid];
-		int leftp=0;
-		int rightp=0;
-		int i=0;
-		while(leftp<leftSize || rightp <rightSize)
-		{
-			if((left[leftp] < right[rightp] || rightp >= rightSize)&(leftp<leftSize)) _elem[i++] = left[leftp++];
-			if((right[rightp] < left[leftp] || leftp >=leftSize)&&(rightp<rightSize)) _elem[i++]=right[rightp++];
-		}
-		delete [] left;
-	}
-
-
-
-	template <typename T>
-	Rank Vector<T>::bubble2(Rank lo, Rank hi)
-	{
-		Rank last = lo;
-		while (++lo < hi)
-		{
-			if (_elem[lo-1] > _elem[lo])
-			{
-				swap(_elem[lo-1],_elem[lo]);
-				last = lo-1;
-			}
-		}
-		return last;
-	}
-
-	template<typename T>
-	void Vector<T>::bubbleSort2(Rank lo, Rank hi)
-	{
-		while (lo < (hi = bubble2(lo,hi)));
-	}
-		
+		bubbleSort1(Rank lo, Rank hi);
 	template<typename T>
 	bool Vector<T>::bubble1(Rank lo, Rank hi)
 	{
@@ -365,14 +307,10 @@ namespace MyVector{
 		std::cout  << "Value: [";
 		for (int i=1;i < _size+1; i++)
 		{
-			std::cout  <<_elem[i-1] << ", ";
-			if (i%10 == 0) 
-			{
-				std::cout<<std::endl;
-				std::cout <<"\t";
-			}
+			std::cout  <<'\t'<< _elem[i-1] << ", ";
+			if (i%5 == 0) std::cout<<std::endl;
 		}
-		std::cout << '\b'<< '\b'<<']' << std::endl;
+		std::cout << '\t' << std::endl;
 	}
 
 	template <typename T>
