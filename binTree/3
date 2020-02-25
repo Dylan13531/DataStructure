@@ -20,7 +20,7 @@
 
 #define sibling(p) (IsLChild(*(p))? ((p)->parent->rc):(p)->parent->lc)
 #define uncle(x) (IsLChild(*((x)->parent))? (x)->parent->parent->rc:(x)->parent->parent->lc)
-#define FromParentTo(x) (IsRoot(x)? _root:(IsLChild(x)? ((x).parent->lc):((x).parent->rc)))
+#define FromParentTo(x) (IsRoot(x)? _root:(IsLChild(x)? (x).parent->lc:(x).parent->rc))
 
 #include "../vector/stack.h"
 #include "../List/queue.h"
@@ -50,7 +50,7 @@ struct BinNode
 		int size();
 		BinNodePosi(T) insertAsLC(T const &);
 		BinNodePosi(T) insertAsRC(T const &);
-		BinNodePosi(T) succ();
+//		BinNodePosi(T) succ();
 		template <typename VST> void travLevel(VST &);
 		template <typename VST> void travPre(VST &);
 		template <typename VST> void travIn(VST &);
@@ -68,13 +68,13 @@ int BinNode<T>::size()
 	return s;
 }
 
-template<typename T> template<typename VST>
+template <typename T> template <typename VST> 
 void BinNode<T>::travLevel(VST & visit)
 {
 	travLevelR(this, visit);
 }
 
-template<typename T> template<typename VST>
+template <typename T> template <typename VST> 
 void BinNode<T>::travPre(VST & visit)
 {
 	switch(rand() %3)
@@ -86,7 +86,7 @@ void BinNode<T>::travPre(VST & visit)
 	}
 }
 
-template<typename T> template<typename VST>
+template <typename T> template <typename VST> 
 void BinNode<T>::travIn(VST & visit)
 {
 	switch(rand() %3)
@@ -98,7 +98,7 @@ void BinNode<T>::travIn(VST & visit)
 	}
 }
 
-template<typename T> template<typename VST>
+template <typename T> template <typename VST> 
 void BinNode<T>::travPost(VST & visit)
 {
 	switch(rand() %2)
@@ -123,7 +123,7 @@ BinNodePosi(T) BinNode<T>::insertAsRC(T const & e)
 	return rc;
 }
 
-template<typename T,typename VST>
+template<typename T> template<typename VST>			//先序遍历v1
 void travPre_R1(BinNodePosi(T) x,VST & visit)
 {
 	if (!x)
@@ -134,7 +134,7 @@ void travPre_R1(BinNodePosi(T) x,VST & visit)
 }
 
 //先序遍历v2
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travPre_R2(BinNodePosi(T) x, VST & visit)
 {
 	MyVector::stack<BinNodePosi(T)> S;
@@ -152,7 +152,7 @@ void travPre_R2(BinNodePosi(T) x, VST & visit)
 }
 
 //先序遍历v3
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travPre_R3(BinNodePosi(T) x, VST & visit)
 {
 	MyVector::stack<BinNodePosi(T)> S;
@@ -171,7 +171,7 @@ void travPre_R3(BinNodePosi(T) x, VST & visit)
 }
 
 //中序遍历v1
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travIn_R1(BinNodePosi(T) x,VST & visit)
 {
 	if (!x)
@@ -182,7 +182,7 @@ void travIn_R1(BinNodePosi(T) x,VST & visit)
 }
 
 //中序遍历v2
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travIn_R2(BinNodePosi(T) x, VST & visit)
 {
 	MyVector::stack<BinNodePosi(T)> S;
@@ -202,7 +202,7 @@ void travIn_R2(BinNodePosi(T) x, VST & visit)
 }
 
 //中序遍历v3
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travIn_R3(BinNodePosi(T) x, VST & visit)
 {
 	MyVector::stack<BinNodePosi(T)> S;
@@ -226,7 +226,7 @@ void travIn_R3(BinNodePosi(T) x, VST & visit)
 }
 
 //后序遍历v1
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travPost_R1(BinNodePosi(T) x,VST & visit)
 {
 	if (!x)
@@ -236,7 +236,7 @@ void travPost_R1(BinNodePosi(T) x,VST & visit)
 	visit(x->data);
 }
 
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travPost_R2(BinNodePosi(T) x,VST & visit)
 {
 	MyVector::stack<BinNodePosi(T)> S;
@@ -266,7 +266,7 @@ void travPost_R2(BinNodePosi(T) x,VST & visit)
 	}
 }
 
-template<typename T,typename VST>
+template<typename T> template<typename VST>
 void travLevelR(BinNodePosi(T) x, VST & visit)
 {
 	MyList::queue<BinNodePosi(T)> Q;
@@ -280,23 +280,6 @@ void travLevelR(BinNodePosi(T) x, VST & visit)
 		if (x->rc)
 			Q.equeue(x->rc);
 	}
-}
-
-template <typename T>
-BinNodePosi(T) BinNode<T>::succ()
-{
-	BinNodePosi(T) s = this;
-	if (rc)
-	{
-		s = rc;
-		while(HasLChild(*s)) s = s->lc;
-	}
-	else
-	{
-		while(IsRChild(*s)) s = s->parent;
-		s = s->parent;
-	}
-	return s;
 }
 		
 

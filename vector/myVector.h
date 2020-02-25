@@ -42,11 +42,19 @@ namespace MyVector{
 //			void quickSort(Rank lo, Rank hi);
 //			void heapSort(Rank lo, Rank hi);
 		public:
-			explicit Vector(int c=DEFAULT_CAPACITY, int s=0,T v=0)
+			Vector()
 			{
-				_elem = new T [_capacity=c];
+				_size = 0;
+				_capacity = DEFAULT_CAPACITY;
+				_elem = new T [_capacity];
+			}
+
+			explicit Vector(int s,T v=0)
+			{	
+				_elem = new T [_capacity=s];
 				for (_size=0; _size<s; _elem[_size++]=v);
 			}
+
 			Vector(T const * A, Rank n)
 			{
 				copyFrom(A,0,n);
@@ -280,11 +288,9 @@ namespace MyVector{
 	template <typename T>
 	Vector<T> & Vector<T>::operator=(Vector<T> const & v)
 	{
-		if (*this == v)
-			return *this;
 		if (_elem)
 			delete [] _elem;
-		copy(v._elem,0,v._size);
+		copyFrom(v._elem,0,v._size);
 		return *this;
 	}
 	
